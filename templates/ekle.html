@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cihaz Ekle</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center; /* yatay ortalama */
+            align-items: center;     /* dikey ortalama */
+            height: 100vh;           /* tüm ekran boyu */
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center; 
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: 120px 200px; /* label - input genişliği */
+            gap: 10px 20px; /* satır ve sütun boşluğu */
+            justify-content: center;
+            align-items: center;
+        }
+
+        label {
+            text-align: right; /* label'ları sağa hizala */
+        }
+
+        input {
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            grid-column: span 2; /* butonu ortalamak için iki sütunu kapsa */
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .back-btn {
+            text-decoration: none; 
+            grid-column: span 2; /* butonu ortalamak için iki sütunu kapsa */
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            background-color: #6c757d;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Yeni Cihaz Ekle</h1>
+        <form method="POST">
+            <label>İsim:</label>
+            <input type="text" name="name" required>
+
+            <label>Marka:</label>
+            <input type="text" name="marka" required>
+
+            <label>Model:</label>
+            <input type="text" name="model" required>
+
+            <label>Lokasyon:</label>
+            <input type="text" name="lokasyon" required>
+
+            <label>External IP:</label>
+            <input type="text" name="external_IP" required>
+
+            <label>Internal IP:</label>
+            <input type="text" name="internal_IP" required>
+
+            <label>External Ports:</label>
+            <input type="text" name="external_port" required>
+            <label>Internal Ports:</label>
+            <input type="text" name="internal_port" required>
+            <label>Guest OS:</label>
+            <input type="text" name="Guest_OS" required>
+            <button type="submit">Ekle</button>
+            <a href="/" class="back-btn">Listeye Geri Dön</a>
+        </form>
+    </div>
+</body>
+</html>
+

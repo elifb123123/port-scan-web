@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+
+
+    <meta charset="UTF-8">
+    <title>Firewall VIP Aracı</title>
+
+
+
+</head>
+<body>
+        <h1> Firewall VIP İnceleme </h1>
+         <div class="device-card">
+        <dl class="device-info">
+            <dt>İsim</dt><dd>{{ device.name }}</dd>
+            <dt>Marka</dt><dd>{{ device.marka }}</dd>
+            <dt>Model</dt><dd>{{ device.model }}</dd>
+            <dt>Lokasyon</dt><dd>{{ device.lokasyon }}</dd>
+            <dt>External IP</dt><dd>{{ device.external_IP }}</dd>
+            <dt>Internal IP</dt><dd>{{ device.internal_IP }}</dd>
+        </dl>
+    </div>
+        <table>
+          <tr>
+            <th>External Ports</th>
+            <th>External Port Status</th>
+        </tr>
+        {% for p,s in devices %}
+        <tr>
+            <td>{{ p }}</td>
+            <td>{{ s }}</td>
+
+        </tr>
+        {% endfor %}
+        </table>
+  <a href="/" class="back-button">Ana Sayfaya Dön</a>
+</body>
+
+
+</html>

@@ -1,0 +1,70 @@
+
+/* TABLO*/
+table { 
+        border-collapse: collapse; 
+        width: 50%; 
+    }
+    th, td { 
+        border: 1px solid #ccc; 
+        padding: 8px; 
+    }
+    th { 
+        background-color: #ad0404ff; 
+        color: white;  /* yazı rengi beyaz */
+        font-size: 18px; /* yazı boyutu */
+    }
+    td {
+        font-size: 16px; /* hücre yazı boyutu */
+    }
+
+
+/* CİHAZ KARTI */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 20px;
+        }
+
+        .device-card {
+            min-width: 400px;    /* genişlik */
+            background-color: #ffffff;
+            padding: 20px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            font-size: 20px;
+            float: right;
+                }
+
+        .device-card h2 {
+            margin-top: 0;
+            color: #ad0404ff;
+        }
+
+        .device-info dt {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .device-info dd {
+            margin: 0 0 10px 0;
+        }
+
+
+
+        
+/* GERİ DÖNÜŞ BUTONU */
+
+.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ad0404ff; /* bordo */
+    color: white;              /* yazı rengi beyaz */
+    text-decoration: none;     /* alt çizgi kaldır */
+    border-radius: 5px;        /* köşe yuvarlama */
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+.back-button:hover {
+    background-color: #ad0404ff; /* hover efekti */
+}

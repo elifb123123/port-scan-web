@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/home.css') }}">
+
+    <title>Cihaz Listesi</title>
+</head>
+<body>
+
+<div class="top-bar">
+    <form action="/ara" class="search-bar">
+        <input type="search" id="search" name="search" placeholder="Ara..." 
+        value="{{ request.args.get('search', '') }}">
+
+        <div id="suggestions" 
+             style="position:absolute; top:100%; left:0; right:0; 
+                    background:white; border:1px solid #ccc; display:none; 
+                    z-index:1000;"></div>
+
+        <select name="category" class="search-category">
+        <option value="name">İsim</option>
+        <option value="marka">Marka</option>
+        <option value="model">Model</option>
+        <option value="lokasyon">Lokasyon</option>
+        <option value="external_IP">External IP</option>
+        <option value="internal_IP">Internal IP</option>
+        </select>
+
+        <button type="submit"><img src="/static/icons/search.svg" width="18" height="18" alt="Ara"></button>
+    </form>
+
+    <a href="{{ url_for('ekle') }}" class="btn">Cihaz Ekle</a>
+</div>
+
+
+    <h1>Cihaz Listesi</h1>
+    <table>
+    <tr>
+        <th>ID</th>
+        <th>İsim</th>
+        <th>Marka</th>
+        <th>Model</th>
+        <th>Lokasyon</th>
+        <th>External IP</th>
+        <th>Internal IP</th>
+        <th>External Ports</th> 
+        <th>Internal Ports </th>
+        <th>Guest OS</th>
+        <th>Sil</th>
+        <th>Düzenle</th>
+        <th>FireWall VIP İnceleme </th>
+    </tr>
+    {% for s in devices %}
+    <tr>
+        <td>{{ s['id'] }}</td>
+        <td>{{ s['name'] }}</td>
+        <td>{{ s['marka'] }}</td>
+        <td>{{ s['model'] }}</td>
+        <td>{{ s['lokasyon'] }}</td>
+        <td>{{ s['external_IP'] }}</td>
+        <td>{{ s['internal_IP'] }}</td>
+        <td>{{ s['external_port'] }}</td>
+        <td>{{ s['internal_port'] }}</td>
+        <td>{{ s['Guest_OS'] }}</td> 
+
+        <td>
+            <a href="{{ url_for('delete_device', id=s['id']) }}"
+   onclick="return confirm('ID:  {{ s['id'] }}\nİsim:  {{ s['name'] }} \nExternal IP:  {{ s['external_IP'] }}\nInternal IP:  {{ s['internal_IP'] }}\n Bu cihazı silmek istediğinize emin misiniz?')"
+   style="text-decoration:none; color:red;">
+   <img src="/static/icons/trash.svg" width="15" height="15" alt="Sil">
+</a>
+
+        </td>
+
+        <td>
+    <a href="javascript:void(0);" 
+   onclick="showEditForm({{ s['id'] }}, '{{ s['name'] }}', '{{ s['marka'] }}', '{{ s['model'] }}','{{ s['lokasyon'] }}', '{{ s['external_IP'] }}', '{{ s['internal_IP'] }}', '{{ s['external_port'] }}', '{{ s['internal_port'] }}', '{{ s['Guest_OS'] }}')">
+   <img src="{{ url_for('static', filename='icons/edit.svg') }}" width="17" height="17" alt="Düzenle">
+</a>
+        </td>
+
+        <td>
+<a href="{{ url_for('sorgula', id=s['id']) }}" style="text-decoration:none; color:blue;">
+Sorgula
+</a>
+
+
+  
+</td>
+
+    </tr>
+    {% endfor %}
+</table>
+
+<div id="editForm" class="edit-form">
+    <h3>Cihaz Bilgilerini Düzenle</h3>
+    <form id="updateForm" method="post" action="{{ url_for('edit' ) }}">
+        <input type="hidden" name="id" id="edit_id">
+        <label>İsim:</label>
+        <input type="text" name="name" id="edit_name"><br><br>
+        <label>Marka:</label>
+        <input type="text" name="marka" id="edit_marka"><br><br>
+        <label>Model:</label>
+        <input type="text" name="model" id="edit_model"><br><br>
+        <label>Lokasyon:</label>
+        <input type="text" name="lokasyon" id="edit_lokasyon"><br><br>
+        <label>External IP:</label>
+        <input type="text" name="external_IP" id="edit_external_IP"><br><br>
+        <label>Internal IP:</label>
+        <input type="text" name="internal_IP" id="edit_internal_IP"><br><br>
+        <label>External Ports:</label>
+        <input type="text" name="external_port" id="edit_external_port"><br><br>
+        <label>Internal Ports:</label>
+        <input type="text" name="internal_port" id="edit_internal_port"><br><br>
+        <label>Guest OS:</label>
+        <input type="text" name="Guest_OS" id="edit_Guest_OS"><br><br>
+        <button type="submit" class="save-btn">Kaydet</button>
+        <button type="button" class="cancel-btn" onclick="hideEditForm()">Vazgeç</button>
+    </form>
+</div>
+
+<script>
+    function showEditForm(id, name, marka, model,lokasyon, external_ip, internal_ip, external_port, internal_port, Guest_OS) {
+        
+        document.getElementById('edit_id').value = id;
+        document.getElementById('edit_name').value = name;
+        document.getElementById('edit_marka').value = marka;
+        document.getElementById('edit_model').value = model;
+        document.getElementById('edit_lokasyon').value = lokasyon;
+        document.getElementById('edit_external_IP').value = external_ip;
+        document.getElementById('edit_internal_IP').value = internal_ip;
+        document.getElementById('edit_external_port').value = external_port; 
+        document.getElementById('edit_internal_port').value = internal_port;
+        document.getElementById('edit_Guest_OS').value = Guest_OS;
+
+        document.getElementById('editForm').style.display = 'block';
+    }
+
+    function hideEditForm() {
+        document.getElementById('editForm').style.display = 'none';
+    }
+</script>
+
+
+<script>
+const input = document.getElementById('search');
+const category = document.querySelector('select[name="category"]');
+const suggestions = document.getElementById('suggestions');
+
+function getSuggestions() {
+    const query = input.value;
+    if (query.length < 1) {
+        suggestions.innerHTML = '';
+        suggestions.style.display = 'none';
+        return;
+    }
+
+    fetch(`/autocomplete?q=${encodeURIComponent(query)}&category=${encodeURIComponent(category.value)}`)
+        .then(res => res.json())
+        .then(data => {
+            suggestions.innerHTML = '';
+            data.forEach(item => {
+                const div = document.createElement('div');
+                div.textContent = item;
+                div.style.padding = '5px';
+                div.style.cursor = 'pointer';
+                div.addEventListener('click', () => {
+                    input.value = item;
+                    suggestions.style.display = 'none';
+                });
+                suggestions.appendChild(div);
+            });
+            suggestions.style.display = data.length ? 'block' : 'none';
+        });
+}
+
+input.addEventListener('keyup', getSuggestions);
+category.addEventListener('change', getSuggestions);
+
+
+</script>
+
+</body>
+</html>
